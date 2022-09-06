@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
 import Slider from "react-slick";
+import { Link } from "react-scroll";
+
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import one from "./content/1.png";
 import two from "./content/2.png";
@@ -47,9 +49,11 @@ export const DocumentSlider = () => {
             isVisible ? "visible" : "invisible"
           } w-full flex items-center justify-end mt-10`}
         >
-          <button className='bg-[#024D81] text-white px-7 py-2 rounded-lg'>
-            Devam Et
-          </button>
+          <Link to='videoView' smooth={true} duration={1000}>
+            <button className='bg-[#024D81] text-white px-7 py-2 rounded-lg'>
+              Devam Et
+            </button>
+          </Link>
         </div>
 
         <div className='flex flex-col justify-center items-center '>

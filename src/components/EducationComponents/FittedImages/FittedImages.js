@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-scroll";
 import one from "./content/1.png";
 import two from "./content/2.png";
 import three from "./content/3.png";
@@ -24,9 +24,11 @@ export const FittedImages = () => {
           </div>
         </div>
         <div className=' w-full flex items-center justify-end mt-10'>
-          <button className='bg-[#024D81] text-white px-7 py-2 rounded-lg'>
-            Devam Et
-          </button>
+          <Link to='documentSlider' smooth={true} duration={1000}>
+            <button className='bg-[#024D81] text-white px-7 py-2 rounded-lg'>
+              Devam Et
+            </button>
+          </Link>
         </div>
       </div>
     </div>

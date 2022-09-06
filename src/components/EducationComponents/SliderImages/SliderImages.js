@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-
+import { Link } from "react-scroll";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 
 import one from "./content/1.png";
@@ -69,9 +69,11 @@ export const SliderImages = () => {
         </div>
         <div>
           <span className='h-[24rem] flex justify-center items-center'>
-            <button className='bg-[#024D81] text-white px-7 py-2 rounded-lg'>
-              Devam Et
-            </button>
+            <Link to='fittedImages' smooth={true} duration={1000}>
+              <button className='bg-[#024D81] text-white px-7 py-2 rounded-lg'>
+                Devam Et
+              </button>
+            </Link>
           </span>
         </div>
       </Slider>
