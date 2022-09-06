@@ -38,16 +38,16 @@ export const CustomTable = () => {
         </thead>
         <tbody className='text-black bg-white'>
           <tr className='border-b child:border-x'>
-            <td className='py-4 px-6 '>Sliver</td>
-            <td className='py-4 px-6'>Laptop</td>
-            <td className='py-4 px-6'>$2999</td>
-            <td className='py-4 px-6'>Sliver</td>
-            <td className='py-4 px-6'>Laptop</td>
-            <td className='py-4 px-6'>$2999</td>
-            <td className='py-4 px-6'>$2999</td>
-            <td className='py-4 px-6'>Sliver</td>
-            <td className='py-4 px-6'>Laptop</td>
-            <td className='py-4 px-6'>$2999</td>
+            <td className='py-4 px-6'>Example1</td>
+            <td className='py-4 px-6'>Example2</td>
+            <td className='py-4 px-6'>Example3</td>
+            <td className='py-4 px-6'>Example4</td>
+            <td className='py-4 px-6'>Example5</td>
+            <td className='py-4 px-6'>Example6</td>
+            <td className='py-4 px-6'>Example7</td>
+            <td className='py-4 px-6'>Example8</td>
+            <td className='py-4 px-6'>Example9</td>
+            <td className='py-4 px-6'>Example10</td>
           </tr>
         </tbody>
       </table>

@@ -1,12 +1,32 @@
-import React from "react";
-import Select from "react-select";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
+import Select from "react-select";
+import {
+  faciltyIdOptions,
+  yearOptions,
+  activityTypeOptions,
+} from "../../../utils/costants";
 export const InputAndResults = () => {
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+  const [activityType, setActivityType] = useState(null);
+
+  const [fuelTypes, setFuelTypes] = useState([]);
+  useEffect(() => {
+    axios
+      .get("https://www.timdijitalmentorlukprogrami.com/api/fuel-type")
+      .then((res) => {
+        console.log(res.data);
+        let x = res.data.data.map((fuelType) => {
+          return {
+            value: fuelType.id,
+            label: fuelType.name,
+          };
+        });
+
+        setFuelTypes(x);
+      });
+  }, []);
+
   return (
     <div className='m-8'>
       <div className='flex w-full justify-center items-start'>
@@ -24,27 +44,34 @@ export const InputAndResults = () => {
           <div className='mt-10 border-r-2 '>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Facility ID</label>
-              <Select options={options} />
+              <Select options={faciltyIdOptions} />
             </div>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Year</label>
-              <Select options={options} />
+              <Select options={yearOptions} />
             </div>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Activity Type </label>
-              <Select options={options} />
+              <Select options={activityTypeOptions} />
             </div>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Fuel Source</label>
-              <Select options={options} />
+              <Select options={fuelTypes} />
             </div>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Vehicle Type</label>
-              <Select options={options} />
+              <Select options={faciltyIdOptions} />
             </div>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Amount of Activity</label>
-              <Select options={options} />
+              <div className='flex justify-between'>
+                <input
+                  type='text'
+                  className='border-[1px] rounded-md'
+                  placeholder='Giriniz...'
+                />
+                <Select options={faciltyIdOptions} placeholder='Units...' />
+              </div>
             </div>
           </div>
         </div>
