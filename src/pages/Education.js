@@ -10,6 +10,7 @@ import { Ending } from "../components/EducationComponents/Ending/Ending";
 export const Education = () => {
   const Scroll = require("react-scroll");
   const scroll = Scroll.animateScroll;
+  document.body.style.overflow = "hidden";
   useEffect(() => {
     return () => {
       scroll.scrollToTop();

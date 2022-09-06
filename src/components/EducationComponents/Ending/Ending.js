@@ -3,10 +3,13 @@ import one from "./content/1.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export const Ending = () => {
-  const notify = () =>
+  const notify = () => {
+    document.body.style.overflow = "visible";
     toast(
       "Your training section is complete. Please proceed to the next Education section"
     );
+  };
+
   return (
     <div className='flex flex-col child:mb-8 bg-white h-[calc(100vh-4rem)] p-10 rounded-2xl shadow-lg'>
       <div className='flex w-full mt-10 '>
