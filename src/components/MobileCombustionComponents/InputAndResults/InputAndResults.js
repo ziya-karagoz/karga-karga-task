@@ -8,24 +8,78 @@ import {
   activityTypeOptions,
 } from "../../../utils/costants";
 export const InputAndResults = () => {
-  const [activityType, setActivityType] = useState(null);
+  const [selectedFacilityId, setSelectedFacilityId] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [selectedActivity, setSelectedActivity] = useState(null);
+  const [selectedFuelSource, setSelectedFuelSource] = useState(null);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [selectedAmount, setSelectedAmount] = useState(null);
+  const [selectedUnit, setSelectedUnit] = useState(null);
 
   const [fuelTypes, setFuelTypes] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+  const [units, setUnits] = useState([]);
   useEffect(() => {
     axios
-      .get("https://www.timdijitalmentorlukprogrami.com/api/fuel-type")
+      .get(
+        `https://www.timdijitalmentorlukprogrami.com/api/fuel-type?data_type_id=${selectedActivity?.toString()}`
+      )
       .then((res) => {
-        console.log(res.data);
-        let x = res.data.data.map((fuelType) => {
+        let fTypes = res.data.data.map((fuelType) => {
           return {
             value: fuelType.id,
             label: fuelType.name,
           };
         });
 
-        setFuelTypes(x);
+        let temp = res.data.data.find(
+          (element) => element.id === selectedFuelSource
+        );
+        let vhcls = temp?.vehicles.map((vehicle) => {
+          return {
+            value: vehicle.id,
+            label: vehicle.name,
+          };
+        });
+
+        setFuelTypes(fTypes);
+        setVehicles(vhcls);
       });
-  }, []);
+
+    axios
+      .get(
+        `https://www.timdijitalmentorlukprogrami.com/api/unit?data_type_id=${selectedActivity?.toString()}`
+      )
+      .then((res) => {
+        let units = res.data.data.map((unit) => {
+          return {
+            value: unit.id,
+            label: unit.name,
+          };
+        });
+        setUnits(units);
+      });
+  }, [selectedActivity, selectedFuelSource]);
+
+  useEffect(() => {
+    console.log("Selected Values: ", {
+      selectedFacilityId,
+      selectedYear,
+      selectedActivity,
+      selectedFuelSource,
+      selectedVehicle,
+      selectedAmount,
+      selectedUnit,
+    });
+  }, [
+    selectedFacilityId,
+    selectedYear,
+    selectedActivity,
+    selectedFuelSource,
+    selectedVehicle,
+    selectedAmount,
+    selectedUnit,
+  ]);
 
   return (
     <div className='m-8'>
@@ -44,33 +98,69 @@ export const InputAndResults = () => {
           <div className='mt-10 border-r-2 '>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Facility ID</label>
-              <Select options={faciltyIdOptions} />
+              <Select
+                options={faciltyIdOptions}
+                onChange={(e) => {
+                  setSelectedFacilityId(e.value);
+                }}
+              />
             </div>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Year</label>
-              <Select options={yearOptions} />
+              <Select
+                options={yearOptions}
+                onChange={(e) => {
+                  setSelectedYear(e.value);
+                }}
+              />
             </div>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Activity Type </label>
-              <Select options={activityTypeOptions} />
+              <Select
+                options={activityTypeOptions}
+                onChange={(e) => {
+                  setSelectedActivity(e.value);
+                }}
+              />
             </div>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Fuel Source</label>
-              <Select options={fuelTypes} />
+              <Select
+                options={fuelTypes}
+                onChange={(e) => {
+                  setSelectedFuelSource(e.value);
+                }}
+              />
             </div>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Vehicle Type</label>
-              <Select options={faciltyIdOptions} />
+              <Select
+                options={vehicles}
+                onChange={(e) => {
+                  setSelectedVehicle(e.value);
+                }}
+              />
             </div>
             <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
               <label htmlFor=''>Amount of Activity</label>
               <div className='flex justify-between'>
                 <input
-                  type='text'
+                  type='number'
+                  min={0}
                   className='border-[1px] rounded-md'
                   placeholder='Giriniz...'
+                  onChange={(e) => {
+                    setSelectedAmount(e.target.value);
+                  }}
                 />
-                <Select options={faciltyIdOptions} placeholder='Units...' />
+                <Select
+                  options={units}
+                  placeholder='Units...'
+                  onChange={(e) => {
+                    setSelectedUnit(e.value);
+                  }}
+                  className='w-[40%]'
+                />
               </div>
             </div>
           </div>
@@ -124,6 +214,10 @@ export const InputAndResults = () => {
 
               <p className='w-full text-center'>14</p>
             </div>
+          </div>
+          <div className='flex justify-end items-center child:mx-1 text-white'>
+            <button className='px-6 bg-[#0D1840] rounded-lg'>Sıfırla</button>
+            <button className='px-6 bg-[#0D1840] rounded-lg'>Kaydet</button>
           </div>
         </div>
       </div>
