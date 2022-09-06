@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Select from "react-select";
 import {
@@ -7,18 +7,42 @@ import {
   activityTypeOptions,
 } from "../../../../utils/costants";
 
-export const Inputs = ({}) => {
+export const Inputs = ({ setResults, isResetting, setIsResetting }) => {
   const [selectedFacilityId, setSelectedFacilityId] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [selectedFuelSource, setSelectedFuelSource] = useState(null);
+  const [fuelLabel, setFuelLabel] = useState(null);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [selectedUnit, setSelectedUnit] = useState(null);
+  const [unitLabel, setUnitLabel] = useState(null);
 
   const [fuelTypes, setFuelTypes] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [units, setUnits] = useState([]);
+
+  const facilitySelectRef = useRef();
+  const yearSelectRef = useRef();
+  const activitySelectRef = useRef();
+  const fuelSourceSelectRef = useRef();
+  const vehicleSelectRef = useRef();
+  const amountInputRef = useRef();
+  const unitSelectRef = useRef();
+
+  useEffect(() => {
+    if (isResetting) {
+      console.log("geldim");
+      facilitySelectRef.current.setValue([], "clear");
+      yearSelectRef.current.setValue([], "clear");
+      activitySelectRef.current.setValue([], "clear");
+      fuelSourceSelectRef.current.setValue([], "clear");
+      vehicleSelectRef.current.setValue([], "clear");
+      amountInputRef.current.value = "";
+      unitSelectRef.current.setValue([], "clear");
+      setIsResetting(false);
+    }
+  }, [isResetting]);
 
   useEffect(() => {
     axios
@@ -63,23 +87,45 @@ export const Inputs = ({}) => {
   }, [selectedActivity, selectedFuelSource]);
 
   useEffect(() => {
-    console.log("Selected Values: ", {
-      selectedFacilityId,
-      selectedYear,
-      selectedActivity,
-      selectedFuelSource,
-      selectedVehicle,
-      selectedAmount,
-      selectedUnit,
-    });
+    if (
+      selectedFacilityId !== null &&
+      selectedYear !== null &&
+      selectedActivity !== null &&
+      selectedFuelSource !== null &&
+      selectedVehicle !== null &&
+      selectedAmount !== null &&
+      selectedUnit !== null
+    ) {
+      axios
+        .get(
+          `https://www.timdijitalmentorlukprogrami.com/api/greenhouse-gas/mobile-combustion?activity=${selectedActivity}&fuel=${selectedFuelSource}&amount=${selectedAmount}&unit=${selectedUnit}&vehicle=${selectedVehicle}&facility_id=${selectedFacilityId}&year=${selectedYear}`
+        )
+        .then((res) => {
+          let allResults = {
+            selectedFacilityId,
+            selectedYear,
+            selectedActivity,
+            selectedFuelSource,
+            fuelLabel,
+            selectedVehicle,
+            selectedAmount,
+            selectedUnit,
+            unitLabel,
+            ...res.data,
+          };
+          setResults(allResults);
+        });
+    }
   }, [
     selectedFacilityId,
     selectedYear,
     selectedActivity,
     selectedFuelSource,
+    fuelLabel,
     selectedVehicle,
     selectedAmount,
     selectedUnit,
+    unitLabel,
   ]);
 
   return (
@@ -98,6 +144,7 @@ export const Inputs = ({}) => {
         <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
           <label htmlFor=''>Facility ID</label>
           <Select
+            ref={facilitySelectRef}
             options={faciltyIdOptions}
             onChange={(e) => {
               setSelectedFacilityId(e.value);
@@ -107,6 +154,7 @@ export const Inputs = ({}) => {
         <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
           <label htmlFor=''>Year</label>
           <Select
+            ref={yearSelectRef}
             options={yearOptions}
             onChange={(e) => {
               setSelectedYear(e.value);
@@ -116,6 +164,7 @@ export const Inputs = ({}) => {
         <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
           <label htmlFor=''>Activity Type </label>
           <Select
+            ref={activitySelectRef}
             options={activityTypeOptions}
             onChange={(e) => {
               setSelectedActivity(e.value);
@@ -125,8 +174,10 @@ export const Inputs = ({}) => {
         <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
           <label htmlFor=''>Fuel Source</label>
           <Select
+            ref={fuelSourceSelectRef}
             options={fuelTypes}
             onChange={(e) => {
+              setFuelLabel(e.label);
               setSelectedFuelSource(e.value);
             }}
           />
@@ -134,6 +185,7 @@ export const Inputs = ({}) => {
         <div className='my-4  xl:w-96 text-[#0D1840] text-lg'>
           <label htmlFor=''>Vehicle Type</label>
           <Select
+            ref={vehicleSelectRef}
             options={vehicles}
             onChange={(e) => {
               setSelectedVehicle(e.value);
@@ -144,6 +196,7 @@ export const Inputs = ({}) => {
           <label htmlFor=''>Amount of Activity</label>
           <div className='flex justify-between'>
             <input
+              ref={amountInputRef}
               type='number'
               min={0}
               className='border-[1px] rounded-md'
@@ -153,9 +206,11 @@ export const Inputs = ({}) => {
               }}
             />
             <Select
+              ref={unitSelectRef}
               options={units}
               placeholder='Units...'
               onChange={(e) => {
+                setUnitLabel(e.label);
                 setSelectedUnit(e.value);
               }}
               className='w-[40%]'
