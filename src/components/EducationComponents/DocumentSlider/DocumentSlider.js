@@ -28,35 +28,22 @@ export const DocumentSlider = () => {
   };
 
   return (
-    <div className='flex flex-col child:mb-8 bg-white h-[calc(100vh-2rem)] p-10 rounded-2xl shadow-lg'>
+    <div className='relative flex flex-col child:mb-8 bg-white h-[calc(100vh-2rem)] p-10 rounded-2xl shadow-lg'>
       {" "}
       <div>
         <Slider {...settings} ref={sliderRef}>
           <div className='w-full '>
-            <span className='flex justify-center items-center'>
+            <div className='flex  h-full  justify-center items-center child:mx-8'>
               <img src={one} alt='one' />
-            </span>
+            </div>
           </div>
           <div className='w-full '>
-            <span className='flex justify-center items-center'>
+            <div className='flex  h-full  justify-center items-center child:mx-8'>
               <img src={two} alt='two' />
-            </span>
+            </div>
           </div>
         </Slider>
-
-        <div
-          className={`${
-            isVisible ? "visible" : "invisible"
-          } w-full flex items-center justify-end mt-10`}
-        >
-          <Link to='videoView' smooth={true} duration={1000}>
-            <button className='bg-[#024D81] text-white px-7 py-2 rounded-lg'>
-              Devam Et
-            </button>
-          </Link>
-        </div>
-
-        <div className='flex flex-col justify-center items-center '>
+        <div className=' absolute bottom-[5%] right-[50%]  flex flex-col justify-center items-center '>
           <div className='flex w-[30%] justify-between items-center child:cursor-pointer'>
             <div onClick={goBefore}>
               <MdNavigateBefore size={60} color='#d2d2d2' />
@@ -66,6 +53,17 @@ export const DocumentSlider = () => {
               <MdNavigateNext size={60} color='#d2d2d2' />
             </div>
           </div>
+        </div>
+        <div
+          className={`${
+            isVisible ? "visible" : "invisible"
+          } w-full flex items-center absolute bottom-[7%] right-[10%] justify-end mt-10`}
+        >
+          <Link to='videoView' smooth={true} duration={1000}>
+            <button className='bg-[#024D81] text-white px-7 py-2 rounded-lg'>
+              Devam Et
+            </button>
+          </Link>
         </div>
       </div>
     </div>

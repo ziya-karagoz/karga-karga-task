@@ -35,7 +35,7 @@ export const SliderImages = () => {
   };
 
   return (
-    <div className='flex flex-col child:mb-8 bg-white h-[calc(100vh-7rem)] p-10 rounded-2xl shadow-lg'>
+    <div className=' relative flex flex-col child:mb-8 bg-white h-[calc(100vh-7rem)] p-10 rounded-2xl shadow-lg'>
       <div>
         <h1 className='font-bold tracking-wide text-lg'>
           İNOVASYON EĞİTİMİ 101
@@ -77,7 +77,7 @@ export const SliderImages = () => {
           </span>
         </div>
       </Slider>
-      <div className='flex flex-col justify-center items-center '>
+      <div className='absolute bottom-[5%] right-[50%] flex flex-col justify-center items-center '>
         <div className='flex w-[30%] justify-between items-center child:cursor-pointer'>
           <div onClick={goBefore}>
             <MdNavigateBefore size={60} color='#d2d2d2' />
