@@ -5,9 +5,10 @@ import { InputsAndResults } from "../InputsAndResults/InputsAndResults";
 
 export const Analyze = () => {
   const [tableArray, setTableArray] = useState([]);
+  const [editResults, setEditResults] = useState([]);
   useEffect(() => {
-    console.log(tableArray);
-  }, [tableArray]);
+    //console.log(editResults);
+  }, [editResults]);
 
   return (
     <div className='flex flex-col justify-center items-center mt-4 w-full h-fit rounded-md bg-white'>
@@ -16,10 +17,15 @@ export const Analyze = () => {
         <InputsAndResults
           setTableArray={setTableArray}
           tableArray={tableArray}
+          editResults={editResults}
         />
       </div>
       <div>
-        <CustomTable tableArray={tableArray} />
+        <CustomTable
+          tableArray={tableArray}
+          setTableArray={setTableArray}
+          setEditResults={setEditResults}
+        />
       </div>
     </div>
   );

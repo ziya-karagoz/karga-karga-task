@@ -7,13 +7,20 @@ import {
   activityTypeOptions,
 } from "../../../../utils/costants";
 
-export const Inputs = ({ setResults, isResetting, setIsResetting }) => {
+export const Inputs = ({
+  setResults,
+  isResetting,
+  setIsResetting,
+  editResults,
+}) => {
   const [selectedFacilityId, setSelectedFacilityId] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedActivity, setSelectedActivity] = useState(null);
+  const [activityLabel, setActivityLabel] = useState(null);
   const [selectedFuelSource, setSelectedFuelSource] = useState(null);
   const [fuelLabel, setFuelLabel] = useState(null);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [vehicleLabel, setvehicleLabel] = useState(null);
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [unitLabel, setUnitLabel] = useState(null);
@@ -32,7 +39,6 @@ export const Inputs = ({ setResults, isResetting, setIsResetting }) => {
 
   useEffect(() => {
     if (isResetting) {
-      console.log("geldim");
       facilitySelectRef.current.setValue([], "clear");
       yearSelectRef.current.setValue([], "clear");
       activitySelectRef.current.setValue([], "clear");
@@ -43,6 +49,76 @@ export const Inputs = ({ setResults, isResetting, setIsResetting }) => {
       setIsResetting(false);
     }
   }, [isResetting]);
+
+  useEffect(() => {
+    if (editResults !== null) {
+      facilitySelectRef.current.setValue(
+        [
+          {
+            value: editResults.selectedFacilityId,
+            label: editResults.selectedFacilityId,
+          },
+        ],
+        "select-option"
+      );
+      yearSelectRef.current.setValue(
+        [
+          {
+            value: editResults.selectedYear,
+            label: editResults.selectedYear,
+          },
+        ],
+        "select-option"
+      );
+      activitySelectRef.current.setValue(
+        [
+          {
+            value: editResults.selectedActivity,
+            label: editResults.activityLabel,
+          },
+        ],
+        "select-option"
+      );
+      fuelSourceSelectRef.current.setValue(
+        [
+          {
+            value: editResults.selectedFuelSource,
+            label: editResults.fuelLabel,
+          },
+        ],
+        "select-option"
+      );
+      vehicleSelectRef.current.setValue(
+        [
+          {
+            value: editResults.selectedVehicle,
+            label: editResults.vehicleLabel,
+          },
+        ],
+        "select-option"
+      );
+      amountInputRef.current.value = editResults.selectedAmount;
+      unitSelectRef.current.setValue(
+        [
+          {
+            value: editResults.selectedUnit,
+            label: editResults.unitLabel,
+          },
+        ],
+        "select-option"
+      );
+      console.log(editResults);
+      setSelectedFacilityId(editResults.selectedFacilityId);
+      setSelectedYear(editResults.selectedYear);
+      setSelectedActivity(editResults.selectedActivity);
+      setFuelLabel(editResults.fuelLabel);
+      setUnitLabel(editResults.unitLabel);
+      setSelectedFuelSource(editResults.selectedFuelSource);
+      setSelectedVehicle(editResults.selectedVehicle);
+      setSelectedAmount(editResults.selectedAmount);
+      setSelectedUnit(editResults.selectedUnit);
+    }
+  }, [editResults]);
 
   useEffect(() => {
     axios
@@ -105,9 +181,11 @@ export const Inputs = ({ setResults, isResetting, setIsResetting }) => {
             selectedFacilityId,
             selectedYear,
             selectedActivity,
+            activityLabel,
             selectedFuelSource,
             fuelLabel,
             selectedVehicle,
+            vehicleLabel,
             selectedAmount,
             selectedUnit,
             unitLabel,
@@ -167,6 +245,10 @@ export const Inputs = ({ setResults, isResetting, setIsResetting }) => {
             ref={activitySelectRef}
             options={activityTypeOptions}
             onChange={(e) => {
+              fuelSourceSelectRef.current.setValue([], "clear");
+              vehicleSelectRef.current.setValue([], "clear");
+              unitSelectRef.current.setValue([], "clear");
+              setActivityLabel(e.label);
               setSelectedActivity(e.value);
             }}
           />
@@ -188,6 +270,7 @@ export const Inputs = ({ setResults, isResetting, setIsResetting }) => {
             ref={vehicleSelectRef}
             options={vehicles}
             onChange={(e) => {
+              setvehicleLabel(e.label);
               setSelectedVehicle(e.value);
             }}
           />

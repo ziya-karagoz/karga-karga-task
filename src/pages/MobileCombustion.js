@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Analyze } from "../components/MobileCombustionComponents/Analyze/Analyze";
 import { Greet } from "../components/MobileCombustionComponents/Greet/Greet";
 
 import { Navbar } from "../components/MobileCombustionComponents/Navbar/Navbar";
 export const MobileCombustion = () => {
+  useEffect(() => {
+    document.body.style.overflow = "visible";
+  }, []);
+
   return (
     <>
       <main>

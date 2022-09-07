@@ -3,7 +3,11 @@ import axios from "axios";
 
 import { Inputs } from "./Inputs/Inputs";
 import { Results } from "./Results/Results";
-export const InputsAndResults = ({ setTableArray, tableArray }) => {
+export const InputsAndResults = ({
+  setTableArray,
+  tableArray,
+  editResults,
+}) => {
   const [results, setResults] = useState(null);
   const [isResetting, setIsResetting] = useState(false);
 
@@ -18,6 +22,7 @@ export const InputsAndResults = ({ setTableArray, tableArray }) => {
           setResults={setResults}
           isResetting={isResetting}
           setIsResetting={setIsResetting}
+          editResults={editResults}
         />
         <Results
           results={results}

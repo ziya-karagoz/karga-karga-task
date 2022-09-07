@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export const CustomTable = ({ tableArray }) => {
-  const handleDeleteTableRow = (index) => {
-    //BURADA KALDIM YAPILACAK
-    tableArray.splice(index, 1);
+export const CustomTable = ({ tableArray, setTableArray, setEditResults }) => {
+  useEffect(() => {
+    console.log(tableArray);
+  }, [tableArray]);
+
+  const handleDeleteTableRow = (result, dix) => {
+    let tempArray = [].concat(tableArray);
+    const index = tempArray.indexOf(result);
+    if (index > -1) {
+      // only splice array when item is found
+      tempArray.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    setTableArray(tempArray);
+  };
+
+  const handleEditTableRow = (index) => {
+    let tempArray = [].concat(tableArray);
+    setEditResults(tempArray[index]);
+    tempArray.splice(index, 1);
+    setTableArray(tempArray);
   };
 
   return (
@@ -60,12 +76,18 @@ export const CustomTable = ({ tableArray }) => {
                       <div className='flex flex-col justify-center items-center child:bg-[#0D1840] child:text-white child:mb-1 child:p-1 child:rounded-lg child:w-full'>
                         <button
                           onClick={() => {
-                            handleDeleteTableRow(index);
+                            handleDeleteTableRow(result);
                           }}
                         >
                           Sil
                         </button>
-                        <button>Düzenle</button>
+                        <button
+                          onClick={() => {
+                            handleEditTableRow(index);
+                          }}
+                        >
+                          Düzenle
+                        </button>
                       </div>
                     </td>
                   </tr>
