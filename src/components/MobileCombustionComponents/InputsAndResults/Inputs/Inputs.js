@@ -259,6 +259,8 @@ export const Inputs = ({
             ref={fuelSourceSelectRef}
             options={fuelTypes}
             onChange={(e) => {
+              vehicleSelectRef.current.setValue([], "clear");
+              unitSelectRef.current.setValue([], "clear");
               setFuelLabel(e.label);
               setSelectedFuelSource(e.value);
             }}
